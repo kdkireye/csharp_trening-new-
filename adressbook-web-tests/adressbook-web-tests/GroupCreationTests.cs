@@ -7,7 +7,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace adressbook_web_tests
+namespace WebAdressbookTests
 {
     [TestFixture]
     public class GroupCreationTests
@@ -40,7 +40,7 @@ namespace adressbook_web_tests
         }
 
         [Test]
-        public void TheUntitledTestCaseTest()
+        public void GroupCreationTest()
         {
             driver.Navigate().GoToUrl(baseURL);
             driver.FindElement(By.Name("user")).Click();
