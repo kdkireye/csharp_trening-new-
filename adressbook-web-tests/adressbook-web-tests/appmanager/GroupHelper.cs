@@ -11,8 +11,6 @@ namespace WebAdressbookTests
 {
     public class GroupHelper : HelperBase
     {
-
-
         public GroupHelper(ApplicationManager manager)
             : base(manager)
         {
@@ -22,6 +20,7 @@ namespace WebAdressbookTests
         public GroupHelper Create(GroupData group)
         {
             manager.Navigator.GoToGroupsPage();
+
             InnitGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
@@ -59,16 +58,21 @@ namespace WebAdressbookTests
 
         public GroupHelper FillGroupForm(GroupData group)
         {
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Click();
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Click();
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            Type(By.Name("group_name"), group.Name);
+            Type(By.Name("group_header"), group.Header);
+            Type(By.Name("group_footer"), group.Footer);
             return this;
+        }
+
+        public void Type(By locator, string text)
+        {
+            if (text != null)
+            { 
+                driver.FindElement(locator).Click();
+                driver.FindElement(locator).Clear();
+                driver.FindElement(locator).SendKeys(text);
+            }
+
         }
 
         public GroupHelper SubmitGroupCreation()
@@ -78,9 +82,24 @@ namespace WebAdressbookTests
         }
         public GroupHelper SelectGroup(int index)
         {
+            if (!IsHasGroups())
+            {
+                GroupData group = new GroupData("123");
+                group.Header = "123";
+                group.Footer = "124";
+
+                Create(group);
+            }
+
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }
+
+        public bool IsHasGroups()
+        {
+            return HasElementsWithProperty(By.ClassName("group"));
+        }
+
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();

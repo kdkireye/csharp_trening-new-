@@ -58,12 +58,8 @@ namespace WebAdressbookTests
 
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).Click();
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.FirstName);
-            driver.FindElement(By.Name("lastname")).Click();
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
+            Type(By.Name("firstname"), contact.FirstName);
+            Type(By.Name("lastname"), contact.LastName);
             return this;
         }
 
@@ -81,8 +77,20 @@ namespace WebAdressbookTests
 
         public ContactHelper SelectContact(int index)
         {
+            if (!IsHasContacts())
+            {
+                ContactData contact = new ContactData("aaa");
+                contact.LastName = "bbb";
+
+                CreateContact(contact);
+            }
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
+        }
+
+        private bool IsHasContacts()
+        {
+            return HasElementsWithProperty(By.Name("selected[]"));
         }
 
         public ContactHelper SubmitRemoveContact()
@@ -99,7 +107,7 @@ namespace WebAdressbookTests
 
         public ContactHelper InitContactModification()
         {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[2]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='Edit'])[1]")).Click();
             return this;
         }
         public ContactHelper SubmitContactModification()
