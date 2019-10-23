@@ -23,6 +23,11 @@ namespace WebAdressbookTests
             driver = manager.Driver;
         }
 
+        public ApplicationManager GetManager()
+        {
+            return this.manager;
+        }
+
         public void Type(By locator, string text)
         {
             if (text != null)
@@ -50,7 +55,7 @@ namespace WebAdressbookTests
         {
             try
             {
-                var elements = driver.FindElements(by);
+               var elements = driver.FindElements(by);
 
                 return elements.Count > 0;
             }

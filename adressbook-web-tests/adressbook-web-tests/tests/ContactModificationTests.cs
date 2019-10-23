@@ -15,6 +15,7 @@ namespace WebAdressbookTests
         {
             ContactData newContactData = new ContactData("Petr");
             newContactData.LastName = "Petrov";
+            app.Contacts.EnsureThereIsAtLeastOneContact();
             app.Contacts.ModifyContact(1, newContactData);
 
 

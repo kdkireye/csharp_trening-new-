@@ -30,7 +30,6 @@ namespace WebAdressbookTests
 
         public GroupHelper Modify(int v, GroupData newData)
         {
-            manager.Navigator.GoToGroupsPage();
             SelectGroup(v);
             InitGroupModification();
             FillGroupForm(newData);
@@ -43,7 +42,6 @@ namespace WebAdressbookTests
 
         public GroupHelper Remove(int v)
         {
-            manager.Navigator.GoToGroupsPage();
             SelectGroup(v);
             RemoveGroup();
             ReturnToGroupsPage();
@@ -82,24 +80,26 @@ namespace WebAdressbookTests
         }
         public GroupHelper SelectGroup(int index)
         {
-            if (!IsHasGroups())
-            {
-                GroupData group = new GroupData("123");
-                group.Header = "123";
-                group.Footer = "124";
-
-                Create(group);
-            }
-
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }
-
+        
         public bool IsHasGroups()
         {
             return HasElementsWithProperty(By.ClassName("group"));
         }
 
+        public GroupHelper EnsureThereIsAtLeastOneGroup()
+        {
+            if (!IsHasGroups())
+            {
+                GroupData group = new GroupData("123");
+                group.Header = "123";
+                group.Footer = "124";
+                Create(group);
+            }
+           return this;
+        }
         public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();

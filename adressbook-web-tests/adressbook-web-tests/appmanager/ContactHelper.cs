@@ -77,13 +77,6 @@ namespace WebAdressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            if (!IsHasContacts())
-            {
-                ContactData contact = new ContactData("aaa");
-                contact.LastName = "bbb";
-
-                CreateContact(contact);
-            }
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
             return this;
         }
@@ -91,6 +84,18 @@ namespace WebAdressbookTests
         private bool IsHasContacts()
         {
             return HasElementsWithProperty(By.Name("selected[]"));
+        }
+
+        public ContactHelper EnsureThereIsAtLeastOneContact()
+        {
+            if (!IsHasContacts())
+            {
+                ContactData contact = new ContactData("aaa");
+                contact.LastName = "bbb";
+
+                CreateContact(contact);
+            }
+            return this;
         }
 
         public ContactHelper SubmitRemoveContact()

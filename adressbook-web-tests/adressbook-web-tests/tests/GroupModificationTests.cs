@@ -16,7 +16,8 @@ namespace WebAdressbookTests
             GroupData newData = new GroupData("zzz");
             newData.Header = null;
             newData.Footer = null;
-
+            app.Groups.GetManager().Navigator.GoToGroupsPage();
+            app.Groups.EnsureThereIsAtLeastOneGroup();
             app.Groups.Modify(1, newData);
 
         }
