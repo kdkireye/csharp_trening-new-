@@ -28,6 +28,8 @@ namespace WebAdressbookTests
 
         }
 
+        
+
         public ContactHelper ModifyContact(int v, ContactData newContactData)
         {
             SelectContact(v);
@@ -77,7 +79,7 @@ namespace WebAdressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             return this;
         }
 
@@ -121,5 +123,20 @@ namespace WebAdressbookTests
             return this;
         }
 
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.GoToHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+            foreach (IWebElement element in elements)
+            {
+                String[] values = element.Text.Split(' ');
+                ContactData contact = new ContactData(values[1]);
+                contact.LastName = values[0];
+
+                contacts.Add(contact);
+            }
+            return contacts;
+        }
     }
 }
