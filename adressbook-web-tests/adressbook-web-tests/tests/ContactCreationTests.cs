@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 
@@ -24,8 +25,8 @@ namespace WebAdressbookTests
 
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts.Add(contact);
-            oldContacts.Sort();
-            newContacts.Sort();
+            oldContacts = oldContacts.OrderBy(e=>e.LastName).ThenBy(e=>e.FirstName).ToList();
+            newContacts = newContacts.OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ToList();
             Assert.AreEqual(oldContacts, newContacts);
         }
 
