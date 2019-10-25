@@ -136,24 +136,6 @@ namespace WebAdressbookTests
                 contact.LastName = cells[1].Text;
                 contacts.Add(contact);
 
-
-
-
-                /* //String[] values = element.Text.Split(' ');
-                 IList<IWebElement> cells = element.FindElements(By.TagName("td")); 
-                 String[] values = new String[cells.Count];
-                 int i = 0;
-                 foreach (IWebElement element1 in cells)
-                 {
-                    //values[++i] = element1.Text;
-                     // ContactData contact = new ContactData(values[1]);
-                     //contact.LastName = values[0];
-                     contacts.Add(new ContactData (element1.Text));
-                     i++;
-                 }
-                 //ContactData contact = new ContactData(values[1]);
-                 //contact.LastName = values[0];
-                 */
             }
             return contacts;
         }
