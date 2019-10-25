@@ -15,10 +15,11 @@ namespace WebAdressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-
             app.Groups.GetManager().Navigator.GoToGroupsPage();
             app.Groups.EnsureThereIsAtLeastOneGroup();
+
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+
             app.Groups.Remove(0);
 
             List<GroupData> newGroups = app.Groups.GetGroupList();

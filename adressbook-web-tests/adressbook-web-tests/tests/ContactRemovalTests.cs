@@ -14,15 +14,15 @@ namespace WebAdressbookTests
         [Test]
         public void ContactRemovalTest()
         {
+            app.Contacts.EnsureThereIsAtLeastOneContact();
+
             List<ContactData> oldContacts = app.Contacts.GetContactList();
 
-            app.Contacts.EnsureThereIsAtLeastOneContact();
             app.Contacts.Remove(0);
 
             List<ContactData> newContacts = app.Contacts.GetContactList();
 
             oldContacts.RemoveAt(0);
-
             Assert.AreEqual(oldContacts, newContacts);
         }
 
