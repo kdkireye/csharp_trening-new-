@@ -68,6 +68,7 @@ namespace WebAdressbookTests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -109,6 +110,7 @@ namespace WebAdressbookTests
         public ContactHelper RemoveContact()
         {
             driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -120,12 +122,31 @@ namespace WebAdressbookTests
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
 
+        private List<ContactData> contactCache = null;
+
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
+            if (contactCache == null)
+            {
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
+                foreach (IWebElement element in elements)
+                {
+                    IList<IWebElement> cells = element.FindElements(By.TagName("td"));
+                    IWebElement cell = cells[1];
+                    ContactData contact = new ContactData(cells[2].Text);
+                    contact.LastName = cells[1].Text;
+                    contactCache.Add(contact);
+
+                }
+                return contactCache;
+            }
+           /* List<ContactData> contacts = new List<ContactData>();
             manager.Navigator.GoToHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
             foreach (IWebElement element in elements)
@@ -136,8 +157,8 @@ namespace WebAdressbookTests
                 contact.LastName = cells[1].Text;
                 contacts.Add(contact);
 
-            }
-            return contacts;
+            }*/
+            return new List<ContactData>(contactCache);
         }
     }
 }
