@@ -83,8 +83,7 @@ namespace WebAdressbookTests
         }
         public GroupHelper SelectGroup(int index)
         {
-            //driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index) + "]")).Click();
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index) + "]")).Click();
+            driver.FindElements(By.XPath("(//input[@name='selected[]'])"))[index].Click();
             return this;
         }
         
@@ -143,6 +142,7 @@ namespace WebAdressbookTests
                     groupCache.Add(new GroupData(element.Text)
                     {
                         Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+
                     });
                 }
                 return groupCache;

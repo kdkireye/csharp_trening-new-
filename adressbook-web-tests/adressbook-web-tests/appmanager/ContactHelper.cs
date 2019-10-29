@@ -16,7 +16,7 @@ namespace WebAdressbookTests
         {
         }
 
-       
+        
 
         public ContactHelper CreateContact(ContactData contact)
         {
@@ -28,12 +28,12 @@ namespace WebAdressbookTests
 
         }
 
-        
+       
 
         public ContactHelper ModifyContact(int v, ContactData newContactData)
         {
             SelectContact(v);
-            InitContactModification();
+            InitContactModification(v);
             FillContactForm(newContactData);
             SubmitContactModification();
             ReturnToHomePage();
@@ -114,9 +114,10 @@ namespace WebAdressbookTests
             return this;
         }
 
-        public ContactHelper InitContactModification()
-        {
-            driver.FindElement(By.XPath("(//img[@alt='Edit'])[1]")).Click();
+        public ContactHelper InitContactModification(int index)
+        {  driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
             return this;
         }
         public ContactHelper SubmitContactModification()
@@ -146,19 +147,37 @@ namespace WebAdressbookTests
                 }
                 return contactCache;
             }
-           /* List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.Name("entry"));
-            foreach (IWebElement element in elements)
-            {
-                IList<IWebElement> cells = element.FindElements(By.TagName("td"));
-                IWebElement cell = cells[1];
-                ContactData contact = new ContactData(cells[2].Text);
-                contact.LastName = cells[1].Text;
-                contacts.Add(contact);
-
-            }*/
             return new List<ContactData>(contactCache);
         }
+        /*public ContactData GetContactInformationFromTable(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index].FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+            string address = cells[3].Text;
+            string allPhones = cells[5].Text;
+            return;
+        }
+
+        public ContactData GetContactInformationFromEditForm(int index)
+        {
+            manager.Navigator.GoToHomePage();
+            InitContactModification(0);
+            string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            return new ContactData(firstName)
+            {
+                Adress=address, 
+                HomePhone=homePhone, 
+                MobilePhone=mobilePhone, 
+                WorkPhone=workPhone
+            };
+        }*/
     }
 }
