@@ -16,7 +16,6 @@ namespace WebAdressbookTests
         {
         }
 
-        
 
         public ContactHelper CreateContact(ContactData contact)
         {
@@ -127,6 +126,14 @@ namespace WebAdressbookTests
             return this;
         }
 
+      /*  public ContactHelper ViewContactDetailsPage(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+               .FindElements(By.TagName("td"))[6]
+               .FindElement(By.TagName("a")).Click();
+            return this;
+        }*/
+
         private List<ContactData> contactCache = null;
 
         public List<ContactData> GetContactList()
@@ -161,6 +168,7 @@ namespace WebAdressbookTests
 
             return new ContactData(firstName)
             {
+                LastName = lastName,
                 Adress = address,
                 AllPhones = allPhones,
                 AllEmails = allEmails
@@ -184,6 +192,7 @@ namespace WebAdressbookTests
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
             return new ContactData(firstName)
             {
+                LastName=lastName,
                 Adress=address, 
                 HomePhone=homePhone, 
                 MobilePhone=mobilePhone, 
@@ -194,5 +203,15 @@ namespace WebAdressbookTests
 
             };
         }
+
+
+      /*  public ContactData GetContactInformationFromDetailPage()
+        {
+            manager.Navigator.GoToHomePage();
+            ViewContactDetailsPage(0);
+            throw new NotImplementedException();
+        }
+
+    */
     }
 }
