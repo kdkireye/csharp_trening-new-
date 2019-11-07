@@ -126,13 +126,13 @@ namespace WebAdressbookTests
             return this;
         }
 
-      /*  public ContactHelper ViewContactDetailsPage(int index)
+        public ContactHelper ViewContactDetailsPage(int index)
         {
             driver.FindElements(By.Name("entry"))[index]
                .FindElements(By.TagName("td"))[6]
                .FindElement(By.TagName("a")).Click();
             return this;
-        }*/
+        }
 
         private List<ContactData> contactCache = null;
 
@@ -205,13 +205,35 @@ namespace WebAdressbookTests
         }
 
 
-      /*  public ContactData GetContactInformationFromDetailPage()
+        public ContactData GetContactInformationFromDetailPage()
         {
             manager.Navigator.GoToHomePage();
             ViewContactDetailsPage(0);
-            throw new NotImplementedException();
+            string contentDetails = driver.FindElement(By.Id("content")).Text.Replace("\r\n", "\n");
+            string[] cells = contentDetails.Split('\n');
+            string fullName = cells[0];
+            string address = cells[5];
+            string homePhone = cells[7];
+            string mobilePhone = cells[8];
+            string workPhone = cells[9];
+            string email = cells[12];
+            string email2 = cells[13];
+            string email3 = cells[14];
+
+            return new ContactData(fullName)
+            {
+                FullName = fullName,
+                Adress = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3,
+
+            };
         }
 
-    */
+    
     }
 }

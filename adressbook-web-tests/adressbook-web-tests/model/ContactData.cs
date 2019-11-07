@@ -10,6 +10,7 @@ namespace WebAdressbookTests
     {
         private string allPhones;
         private string allEmails;
+        private string fullName;
 
         public ContactData(string firstName)
         {
@@ -33,6 +34,8 @@ namespace WebAdressbookTests
         public string Email2 { get; set; }
 
         public string Email3 { get; set; }
+     
+
 
         public string AllPhones 
         { 
@@ -63,12 +66,31 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    return (Email + Email2 + Email3+ "\r\n").Trim();
+                    return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3) + "\r\n").Trim();
                 }
             }
             set 
             {
                 allEmails = value;
+            }
+        }
+
+        public string FullName 
+        {
+            get
+            {
+                if (fullName != null)
+                {
+                    return fullName.Trim();
+                }
+                else
+                {
+                    return (FirstName.Trim() + " " + LastName.Trim());
+                }
+            }
+            set 
+            {
+                fullName = value;
             }
         }
 
@@ -78,7 +100,7 @@ namespace WebAdressbookTests
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "")+"\r\n";
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace("H:", "").Replace("M:", "").Replace("W:", "") + "\r\n";
         }
         private string CleanUpEmail(string email)
         {
@@ -86,7 +108,7 @@ namespace WebAdressbookTests
             {
                 return "";
             }
-            return email.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return email;
         }
 
         public bool Equals(ContactData other)

@@ -1,4 +1,4 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +17,12 @@ namespace WebAdressbookTests
                 ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
 
                 //verification
-                Assert.AreEqual(fromDetaiPage, fromForm);
-                //Assert.AreEqual(fromTable.Adress, fromForm.Adress);
-                //Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
-                //Assert.AreEqual(fromTable.AllEmails, fromTable.AllEmails);
+                Assert.AreEqual(fromDetaiPage.FullName, fromForm.FullName);
+                Assert.AreEqual(fromDetaiPage.Adress, fromForm.Adress);
+                Assert.AreEqual(fromDetaiPage.AllPhones, fromForm.AllPhones);
+                Assert.AreEqual(fromDetaiPage.AllEmails, fromForm.AllEmails);
+               
 
-            }
+        }
     }
-}*/
+}

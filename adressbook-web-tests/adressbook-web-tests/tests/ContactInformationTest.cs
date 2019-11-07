@@ -17,7 +17,7 @@ namespace WebAdressbookTests
            ContactData fromForm =  app.Contacts.GetContactInformationFromEditForm(0);
 
             //verification
-            Assert.AreEqual(fromTable, fromForm);
+            Assert.AreEqual(fromTable.FullName, fromForm.FullName);
             Assert.AreEqual(fromTable.Adress, fromForm.Adress);
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
             Assert.AreEqual(fromTable.AllEmails, fromTable.AllEmails);
