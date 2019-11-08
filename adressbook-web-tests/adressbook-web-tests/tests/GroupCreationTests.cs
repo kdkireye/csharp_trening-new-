@@ -28,8 +28,8 @@ namespace WebAdressbookTests
         public static IEnumerable<GroupData> GroupDataFromFile()
         {
             List<GroupData> groups = new List<GroupData>();
-            var a = Directory.GetCurrentDirectory() + "\\groups.csv";
-            string[] lines = File.ReadAllLines(Directory.GetCurrentDirectory() + "\\groups.csv");
+
+            string[] lines = File.ReadAllLines(@"adressbook-web-tests\\groups.csv");
             foreach (string l in lines)
             {
                 string[] parts = l.Split(',');
