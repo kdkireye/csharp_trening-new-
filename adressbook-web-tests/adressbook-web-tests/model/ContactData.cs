@@ -12,6 +12,9 @@ namespace WebAdressbookTests
         private string allEmails;
         private string fullName;
 
+        public ContactData()
+        {
+        }
         public ContactData(string firstName)
         {
             FirstName = firstName;
