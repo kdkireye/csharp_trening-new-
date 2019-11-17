@@ -28,7 +28,15 @@ namespace WebAdressbookTests
             return this;
         }
 
-        
+        public GroupHelper Modify(GroupData group, GroupData newData)
+        {
+            SelectGroup(group.Id);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            return this;
+        }
 
         public GroupHelper Modify(int v, GroupData newData)
         {
@@ -49,6 +57,22 @@ namespace WebAdressbookTests
             ReturnToGroupsPage();
             return this;
         }
+
+        public GroupHelper SelectGroup(String id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
+            return this;
+        }
+
+
+        public GroupHelper Remove(GroupData group)
+        {
+            SelectGroup(group.Id);
+            RemoveGroup();
+            ReturnToGroupsPage();
+            return this;
+        }
+
 
         public GroupHelper InnitGroupCreation()
         {
