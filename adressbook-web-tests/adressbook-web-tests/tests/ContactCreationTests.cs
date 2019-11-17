@@ -14,7 +14,7 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : ContactTestBase
     {
         public static IEnumerable<ContactData> RandomContactDataProvider()
         {
@@ -47,15 +47,16 @@ namespace WebAdressbookTests
         public void ContactCreationTest(ContactData contact)
         {
 
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
 
             app.Contacts.CreateContact(contact);
 
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.Add(contact);
             oldContacts = oldContacts.OrderBy(e=>e.LastName).ThenBy(e=>e.FirstName).ToList();
             newContacts = newContacts.OrderBy(e => e.LastName).ThenBy(e => e.FirstName).ToList();
             Assert.AreEqual(oldContacts, newContacts);
+
         }
 
         

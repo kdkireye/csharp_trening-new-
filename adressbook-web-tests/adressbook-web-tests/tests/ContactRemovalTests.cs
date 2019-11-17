@@ -10,21 +10,27 @@ using NUnit.Framework;
 namespace WebAdressbookTests
 {
     [TestFixture]
-    public class ContactRemovalTests : AuthTestBase
+    public class ContactRemovalTests : ContactTestBase
     {
         [Test]
         public void ContactRemovalTest()
         {
             app.Contacts.EnsureThereIsAtLeastOneContact();
 
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
+            ContactData toBeRemoved = oldContacts[1];
+            app.Contacts.Remove(toBeRemoved);
+            System.Threading.Thread.Sleep(50);
+            List<ContactData> newContacts = ContactData.GetAll();
 
-            app.Contacts.Remove(0);
+            oldContacts.RemoveAt(1);
 
-            List<ContactData> newContacts = app.Contacts.GetContactList();
-
-            oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
+
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
 
         
