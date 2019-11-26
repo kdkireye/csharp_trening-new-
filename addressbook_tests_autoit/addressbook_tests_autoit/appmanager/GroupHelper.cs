@@ -28,21 +28,19 @@ namespace addressbook_tests_autoit
                     Name = item
                 });
             }
-            CloseGroupsDialogue();
             return list;
         }
 
         public void EnsureThereIsAtLeastTwoGroup()
         {
             List<GroupData> list = new List<GroupData>();
-            OpenGroupsDialogue();
             string count = aux.ControlTreeView(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51",
                 "GetItemCount", "#0", "");
             if (int.Parse(count) <= 1)
             {
                 GroupData newGroup = new GroupData()
                 {
-                    Name = "test"
+                    Name = "test1"
                 };
 
                 Add(newGroup);
@@ -53,10 +51,12 @@ namespace addressbook_tests_autoit
         public void Remove(GroupData toBeRemoved)
         {
             EnsureThereIsAtLeastTwoGroup();
-            SelectGroup(toBeRemoved);
-            aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51");
-            aux.ControlClick(DELETEGROUPWINTITLE,"","WindowsForms10.BUTTON.app.0.2c908d51");
-            aux.ControlClick(DELETEGROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d53");
+            SelectGroup(toBeRemoved); // выбирем элемент из корневого списка
+            aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d51"); // клик на кнопку удалить
+            aux.WinWait(DELETEGROUPWINTITLE);
+            aux.ControlClick(DELETEGROUPWINTITLE,"","WindowsForms10.BUTTON.app.0.2c908d51"); // чек радиобатона
+            aux.WinWait(DELETEGROUPWINTITLE);
+            aux.ControlClick(DELETEGROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d53"); // клик "ок" удаление
             CloseDeleteGroupsDialogue();
             CloseGroupsDialogue();
         }
@@ -72,7 +72,7 @@ namespace addressbook_tests_autoit
 
                 if (item == id.Name)
                 {
-                    aux.ControlListView(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d5", "Select", "#" + i, "");
+                    aux.ControlTreeView(GROUPWINTITLE, "", "WindowsForms10.SysTreeView32.app.0.2c908d51", "Select", "#0|#" + i, "");
                     break;
                 }
             }
@@ -96,7 +96,7 @@ namespace addressbook_tests_autoit
             aux.ControlClick(GROUPWINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d54");
         }
 
-        private void OpenGroupsDialogue()
+        public void OpenGroupsDialogue()
         {
             aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d512");
             aux.WinWait(GROUPWINTITLE);

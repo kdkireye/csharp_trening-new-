@@ -10,6 +10,7 @@ namespace addressbook_tests_autoit
         [Test]
         public void TestGroupRemove()
         {
+            app.Groups.OpenGroupsDialogue();
             app.Groups.EnsureThereIsAtLeastTwoGroup();
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             GroupData toBeRemoved = oldGroups[1];
