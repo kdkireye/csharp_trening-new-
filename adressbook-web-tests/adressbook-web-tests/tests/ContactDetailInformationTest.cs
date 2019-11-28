@@ -10,18 +10,16 @@ namespace WebAdressbookTests
     [TestFixture]
     public class ContactDetailInformationTest : AuthTestBase
     {
-            [Test]
-            public void TestContactDetailInformation()
-            {
-                ContactData fromDetaiPage = app.Contacts.GetContactInformationFromDetailPage();
-                ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
+        [Test]
+        public void TestContactDetailInformation()
+        {
+            ContactData fromDetaiPage = app.Contacts.GetContactInformationFromDetailPage();
+            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
 
-                //verification
-                Assert.AreEqual(fromDetaiPage.FullName, fromForm.FullName);
-                Assert.AreEqual(fromDetaiPage.Adress, fromForm.Adress);
-                Assert.AreEqual(fromDetaiPage.AllPhones, fromForm.AllPhones);
-                Assert.AreEqual(fromDetaiPage.AllEmails, fromForm.AllEmails);
-               
+            //verification
+            
+            Assert.AreEqual(fromDetaiPage.AllInformationFromDetailPage, fromForm.AllInformationFromForm);
+
 
         }
     }

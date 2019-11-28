@@ -14,6 +14,9 @@ namespace WebAdressbookTests
         private string allPhones;
         private string allEmails;
         private string fullName;
+        private string allInformation;
+        private string allPhonesFromForm;
+        private string contentDetails;
 
         public ContactData()
         {
@@ -73,10 +76,28 @@ namespace WebAdressbookTests
                 allPhones = value;
             } 
         }
-
-        public string AllEmails 
+        public string AllPhonesFromForm
         {
-            get 
+            get
+            {
+                if (allPhonesFromForm != null)
+                {
+                    return allPhonesFromForm;
+                }
+                else
+                {
+                    return (AddPhoneSumbolH(HomePhone) + AddPhoneSumbolM(MobilePhone) + AddPhoneSumbolW(WorkPhone)).Trim();
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
+
+        public string AllEmails
+        {
+            get
             {
                 if (allEmails != null)
                 {
@@ -87,9 +108,46 @@ namespace WebAdressbookTests
                     return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3) + "\r\n").Trim();
                 }
             }
-            set 
+            set
             {
                 allEmails = value;
+            }
+        }
+        public string AllInformationFromForm
+        {
+            get
+            {
+                if (allInformation != null)
+                {
+                    return allInformation;
+                }
+                else
+                {
+                    return (FullName + Adress + AllPhonesFromForm + AllEmails).Replace("\n","").Replace("\r", "").Trim();
+                }
+            }
+            set
+            {
+                allInformation = value;
+            }
+        }
+
+        public string AllInformationFromDetailPage
+        {
+            get
+            {
+                if (contentDetails != null)
+                {
+                    return contentDetails;
+                }
+                else
+                {
+                    return (FullName + Adress + AllPhones+ AllEmails).Replace("\n", "").Replace("\r", "").Trim();
+                }
+            }
+            set
+            {
+                contentDetails = value;
             }
         }
 
@@ -120,6 +178,31 @@ namespace WebAdressbookTests
             }
             return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace("H:", "").Replace("M:", "").Replace("W:", "") + "\r\n";
         }
+        private string AddPhoneSumbolH(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "H: "+ phone;
+        }
+        private string AddPhoneSumbolM(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "M: " + phone;
+        }
+        private string AddPhoneSumbolW(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "W: " + phone;
+        }
+
         private string CleanUpEmail(string email)
         {
             if (email == null || email == "")
@@ -172,8 +255,21 @@ namespace WebAdressbookTests
                 return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
             }
         }
-
-        
-
+        public List<ContactData> GetContact()
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from c in db.Contacts
+                        from gcr in db.GCR.Where(p => p.GroupId == Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+                        select c).Distinct().ToList();
+            }
+        }
+        public List<ContactData> GetContactsWithGroup(string groupId)
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return (from c in db.Contacts from gcr in db.GCR.Where(p => p.GroupId == groupId && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00") select c).Distinct().ToList();
+            }
+        }
     }
 }

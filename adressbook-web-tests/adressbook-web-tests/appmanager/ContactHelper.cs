@@ -27,7 +27,6 @@ namespace WebAdressbookTests
 
         }
 
-        
 
         public ContactHelper ModifyContact(int v, ContactData newContactData)
         {
@@ -238,31 +237,58 @@ namespace WebAdressbookTests
         {
             manager.Navigator.GoToHomePage();
             ViewContactDetailsPage(0);
-            string contentDetails = driver.FindElement(By.Id("content")).Text.Replace("\r\n", "\n");
-            string[] cells = contentDetails.Split('\n');
-            string fullName = cells[0];
-            string address = cells[5];
-            string homePhone = cells[7];
-            string mobilePhone = cells[8];
-            string workPhone = cells[9];
-            string email = cells[12];
-            string email2 = cells[13];
-            string email3 = cells[14];
+            string contentDetails = driver.FindElement(By.Id("content")).Text.Replace("\n", "").Replace("\r", "");
 
-            return new ContactData(fullName)
+            return new ContactData(contentDetails)
             {
-                FullName = fullName,
-                Adress = address,
-                HomePhone = homePhone,
-                MobilePhone = mobilePhone,
-                WorkPhone = workPhone,
-                Email = email,
-                Email2 = email2,
-                Email3 = email3,
+                AllInformationFromDetailPage = contentDetails
 
             };
         }
+        public void EnsureThereContactAddTheGroup(ContactData contact, GroupData group)
+        {
+            //manager.Navigator.GoToHomePage();
+            //SelectGroupFilter(group.Id);
 
+            bool selectedGroupHasElement = false;
+
+            List<ContactData> contactsInGroup = group.GetContacts();
+            foreach (ContactData c in contactsInGroup)
+            {
+                if (c.Equals(contact))
+                {
+                    selectedGroupHasElement = true;
+                    break;
+                }
+            }
+
+
+            List<string> groupsHasElement = new List<string>();
+
+            List<GroupData> allGroups = GroupData.GetAll();
+
+            foreach(GroupData g in allGroups) {
+                if (g.Id == group.Id)
+                {
+                    continue;
+                }
+
+                contactsInGroup = g.GetContacts();
+                foreach (ContactData c in contactsInGroup)
+                {
+                    if (c.Equals(contact))
+                    {
+                        groupsHasElement.Add(g.Id);
+                        break;
+                    }
+
+                }
+            };
+
+
+            Console.WriteLine(groupsHasElement);
+
+        }
         public void AddContactToGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
