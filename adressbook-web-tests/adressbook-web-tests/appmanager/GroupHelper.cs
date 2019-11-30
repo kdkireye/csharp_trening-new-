@@ -174,5 +174,39 @@ namespace WebAdressbookTests
            
             return new List<GroupData>(groupCache);
         }
+
+        public int GetFreeGroup(ContactData contact)
+        {
+            List<GroupData> allGroups = GroupData.GetAll();
+
+            foreach (GroupData g in allGroups)
+            {
+                bool groupHasElement = false;
+
+                List<ContactData> contactsInGroup = g.GetContacts();
+                foreach (ContactData c in contactsInGroup)
+                {
+                    if (c.Equals(contact))
+                    {
+                        groupHasElement = true;
+                        break;
+                    }
+                }
+
+                if (!groupHasElement)
+                {
+                    return int.Parse(g.Id);
+                }
+
+            };
+
+            return -1;
+        }
+
+        public int AddContactToGroupDb(int contactId, int groupId)
+        {
+            GroupContactRelation gcr = new GroupContactRelation();
+            return gcr.AddNewRelation(contactId, groupId);
+        }
     }
 }

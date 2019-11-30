@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinqToDB.Mapping;
+using LinqToDB;
 
 namespace WebAdressbookTests
 {
@@ -17,6 +18,7 @@ namespace WebAdressbookTests
         private string allInformation;
         private string allPhonesFromForm;
         private string contentDetails;
+        private string allPhonesFromDetailPage;
 
         public ContactData()
         {
@@ -91,7 +93,26 @@ namespace WebAdressbookTests
             }
             set
             {
-                allPhones = value;
+                allPhonesFromForm = value;
+            }
+        }
+
+        public string AllPhonesFromDetailPage
+        {
+            get
+            {
+                if (allPhonesFromDetailPage != null)
+                {
+                    return allPhonesFromDetailPage;
+                }
+                else
+                {
+                    return HomePhone + MobilePhone + WorkPhone;
+                }
+            }
+            set
+            {
+                allPhonesFromDetailPage = value;
             }
         }
 
@@ -123,7 +144,7 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    return (FullName + Adress + AllPhonesFromForm + AllEmails).Replace("\n","").Replace("\r", "").Trim();
+                    return (FullName+ "\r\n" + Adress+ "\r\n"+ "\r\n" + AllPhonesFromForm+ "\r\n" + AllEmails);
                 }
             }
             set
@@ -142,7 +163,7 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    return (FullName + Adress + AllPhones+ AllEmails).Replace("\n", "").Replace("\r", "").Trim();
+                    return (FullName + Adress + AllPhonesFromDetailPage+ AllEmails)/*.Replace("\n", "").Replace("\r", "").Trim()*/;
                 }
             }
             set
@@ -264,11 +285,23 @@ namespace WebAdressbookTests
                         select c).Distinct().ToList();
             }
         }
-        public List<ContactData> GetContactsWithGroup(string groupId)
+        
+        public List<ContactData> GetContactsListWithGroup(string groupId)
         {
             using (AddressbookDB db = new AddressbookDB())
             {
                 return (from c in db.Contacts from gcr in db.GCR.Where(p => p.GroupId == groupId && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00") select c).Distinct().ToList();
+            }
+        }
+
+        public int? AddContact(ContactData contact)
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return db.Contacts
+                    .Value(c => c.FirstName, contact.FirstName)
+                    .Value(c => c.LastName, contact.LastName)
+                    .InsertWithInt32Identity();
             }
         }
     }

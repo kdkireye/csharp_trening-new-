@@ -9,7 +9,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAdressbookTests
 {
-    public class ContactHelper: HelperBase
+    public class ContactHelper : HelperBase
     {
         public ContactHelper(ApplicationManager manager)
             : base(manager)
@@ -48,7 +48,7 @@ namespace WebAdressbookTests
             return this;
         }
 
-       
+
 
         public ContactHelper Remove(int v)
         {
@@ -136,16 +136,16 @@ namespace WebAdressbookTests
         }
 
         public ContactHelper InitContactModification(int index)
-        {  driver.FindElements(By.Name("entry"))[index]
-                .FindElements(By.TagName("td"))[7]
-                .FindElement(By.TagName("a")).Click();
+        { driver.FindElements(By.Name("entry"))[index]
+               .FindElements(By.TagName("td"))[7]
+               .FindElement(By.TagName("a")).Click();
             return this;
         }
 
         public ContactHelper InitContactModification(String id)
         {
-           driver.FindElement(By.XPath("//a[@href=\"edit.php?id=" + id + "\"]")).Click();
-           return this;
+            driver.FindElement(By.XPath("//a[@href=\"edit.php?id=" + id + "\"]")).Click();
+            return this;
         }
         public ContactHelper SubmitContactModification()
         {
@@ -200,7 +200,7 @@ namespace WebAdressbookTests
                 Adress = address,
                 AllPhones = allPhones,
                 AllEmails = allEmails
- 
+
             };
         }
 
@@ -220,11 +220,11 @@ namespace WebAdressbookTests
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
             return new ContactData(firstName)
             {
-                LastName=lastName,
-                Adress=address, 
-                HomePhone=homePhone, 
-                MobilePhone=mobilePhone, 
-                WorkPhone=workPhone,
+                LastName = lastName,
+                Adress = address,
+                HomePhone = homePhone,
+                MobilePhone = mobilePhone,
+                WorkPhone = workPhone,
                 Email = email,
                 Email2 = email2,
                 Email3 = email3
@@ -237,7 +237,7 @@ namespace WebAdressbookTests
         {
             manager.Navigator.GoToHomePage();
             ViewContactDetailsPage(0);
-            string contentDetails = driver.FindElement(By.Id("content")).Text.Replace("\n", "").Replace("\r", "");
+            string contentDetails = driver.FindElement(By.Id("content")).Text/*.Replace("\n", "").Replace("\r", "")*/;
 
             return new ContactData(contentDetails)
             {
@@ -245,50 +245,32 @@ namespace WebAdressbookTests
 
             };
         }
-        public void EnsureThereContactAddTheGroup(ContactData contact, GroupData group)
+        public bool EnsureThereContactAddTheGroup(ContactData contact, GroupData group)
         {
-            //manager.Navigator.GoToHomePage();
-            //SelectGroupFilter(group.Id);
-
-            bool selectedGroupHasElement = false;
+            bool canAddToGroup = true;
 
             List<ContactData> contactsInGroup = group.GetContacts();
             foreach (ContactData c in contactsInGroup)
             {
                 if (c.Equals(contact))
                 {
-                    selectedGroupHasElement = true;
+                    canAddToGroup = false;
                     break;
                 }
             }
 
-
-            List<string> groupsHasElement = new List<string>();
-
-            List<GroupData> allGroups = GroupData.GetAll();
-
-            foreach(GroupData g in allGroups) {
-                if (g.Id == group.Id)
-                {
-                    continue;
-                }
-
-                contactsInGroup = g.GetContacts();
-                foreach (ContactData c in contactsInGroup)
-                {
-                    if (c.Equals(contact))
-                    {
-                        groupsHasElement.Add(g.Id);
-                        break;
-                    }
-
-                }
-            };
-
-
-            Console.WriteLine(groupsHasElement);
+            return canAddToGroup;
 
         }
+
+        public bool EnsureThereGroupHasContacts(GroupData group)
+        {
+            ContactData contact = new ContactData();
+            List<ContactData> contacts = contact.GetContactsListWithGroup(group.Id);
+
+            return contacts.Count != 0;
+        }
+
         public void AddContactToGroup(ContactData contact, GroupData group)
         {
             manager.Navigator.GoToHomePage();
@@ -297,6 +279,11 @@ namespace WebAdressbookTests
             SelectGroupToAdd(group.Name);
             CommitAddingContactToGroup();
             new WebDriverWait(driver, TimeSpan.FromSeconds(10)).Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        public int AddContactDb(ContactData contact)
+        {
+            return contact.AddContact(contact).GetValueOrDefault();
         }
         public void RemoveContactFromGroup(ContactData contact, GroupData group)
         {
