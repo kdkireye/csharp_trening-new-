@@ -12,8 +12,17 @@ namespace WebAdressbookTests
         [Test]
         public void TestRemovingContactFromGroup()
         {
-            
-            GroupData group = GroupData.GetAll()[0];
+			bool appHasGroups = app.Groups.EnsureThereHasGroup();
+			if (!appHasGroups)
+			{
+				GroupData newGroup = new GroupData("NewGroup");
+				newGroup.Header = "NewGroupHeader";
+				newGroup.Footer = "NewGroupFooter";
+
+				app.Groups.AddGroupToDb(newGroup);
+			}
+
+			GroupData group = GroupData.GetAll()[0];
 
             bool groupHasContacts = app.Contacts.EnsureThereGroupHasContacts(group);
 

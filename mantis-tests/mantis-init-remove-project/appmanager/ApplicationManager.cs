@@ -8,38 +8,26 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace mantis_tests
+namespace mantis_init_remove_project
 {
 	public class ApplicationManager
 	{
 		protected IWebDriver driver;
 		protected string baseURL;
 
-		
-		public RegistrationHelper Registration { get; set; }
-		public FtpHelper Ftp { get; set; }
-		public JamesHelper James { get; set; }
-		public MailHelper Mail { get; set; }
+	
 
-		private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
-		protected LoginHelper loginHelper;
-		protected ProjectManagementHelper projectHelper;
-		protected ManagementMenuHelper menuHelper;
+		private static ThreadLocal<ApplicationManager> app=new ThreadLocal<ApplicationManager>();
 
 
 		private ApplicationManager()
 		{
 			driver = new FirefoxDriver();
 			//driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
-			baseURL = "http://localhost:8080/mantisbt-2.22.1/login_page.php";
+			baseURL = "http://localhost:8080";
 			//"http://localhost/mantisbt-1.2.17/login_page.php"
 			Registration = new RegistrationHelper(this);
-			Ftp = new FtpHelper(this);
-			James = new JamesHelper(this);
-			Mail = new MailHelper(this);
-			projectHelper = new ProjectManagementHelper(this);
-			menuHelper = new ManagementMenuHelper(this, baseURL);
-			loginHelper = new LoginHelper(this);
+			
 		}
 
 		~ApplicationManager()
@@ -73,31 +61,7 @@ namespace mantis_tests
 			}
 		}
 
-		public LoginHelper Auth
-		{
-			get
-			{
-				return loginHelper;
-			}
+		public RegistrationHelper Registration { get; set; }
 
-		}
-
-
-		public ManagementMenuHelper MenuHelper
-		{
-			get
-			{
-				return menuHelper;
-			}
-		}
-
-
-		public ProjectManagementHelper Project
-		{
-			get
-			{
-				return projectHelper;
-			}
-		}
 	}
 }

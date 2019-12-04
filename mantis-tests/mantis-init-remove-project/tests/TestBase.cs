@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace mantis_tests
+namespace mantis_init_remove_project
 {
 	public class TestBase
 	{
@@ -17,7 +17,6 @@ namespace mantis_tests
 		public void SetupApplicationManager()
 		{
 			app = ApplicationManager.GetInstance();
-			app.Auth.Login(new AccountData("administrator", "root"));
 		}
 
 		public static Random rnd = new Random();

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
-namespace mantis_tests
+namespace mantis_init_remove_project
 {
 	public class HelperBase
 	{
@@ -21,16 +19,10 @@ namespace mantis_tests
 			driver = manager.Driver;
 		}
 
-		public ApplicationManager GetManager()
-		{
-			return this.manager;
-		}
-
 		public void Type(By locator, string text)
 		{
 			if (text != null)
 			{
-				driver.FindElement(locator).Click();
 				driver.FindElement(locator).Clear();
 				driver.FindElement(locator).SendKeys(text);
 			}
@@ -49,18 +41,18 @@ namespace mantis_tests
 			}
 
 			//public bool HasElementsWithProperty(By by)
-			//{
-			//	try
-			//	{
-			//		var elements = driver.FindElements(by);
+   //     {
+   //         try
+   //         {
+   //             var elements = driver.FindElements(by);
 
-			//		return elements.Count > 0;
-			//	}
-			//	catch (NoSuchElementException)
-			//	{
-			//		return false;
-			//	}
-			//}
+   //             return elements.Count > 0;
+   //         }
+   //         catch (NoSuchElementException)
+   //         {
+   //             return false;
+   //         }
+   //     }
 
 		}
 	}

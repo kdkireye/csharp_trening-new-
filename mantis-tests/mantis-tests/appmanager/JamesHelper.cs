@@ -32,14 +32,14 @@ namespace mantis_tests
 			}
 
 			TelnetConnection telnet = LoginToJames();
-			telnet.WriteLine("deluser " + account.Name);
+			telnet.WriteLine("deluser " + account.Name + " " + account.Password);
 			System.Console.Out.WriteLine(telnet.Read());
 		}
 
 		public bool Verify(AccountData account)
 		{
 			TelnetConnection telnet = LoginToJames();
-			telnet.WriteLine("verify " + account.Name);
+			telnet.WriteLine("verify " + account.Name + " " + account.Password);
 			String s = telnet.Read();
 			System.Console.Out.WriteLine(s);
 			return !s.Contains("does not exist");

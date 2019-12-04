@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
 
 namespace mantis_tests
 {
@@ -22,8 +24,18 @@ namespace mantis_tests
 			FillRegistrationForm(account);
 			SubmitRegistration();
 			String url = GetConfirmationUrl(account);
-			FillPasswordForm(url, account);
+			FillPasswordForm(url);
 			SubmitPasswordForm();
+		}
+
+		private void SubmitPasswordForm()
+		{
+			throw new NotImplementedException();
+		}
+
+		private void FillPasswordForm(string url)
+		{
+			throw new NotImplementedException();
 		}
 
 		private string GetConfirmationUrl(AccountData account)
@@ -33,26 +45,15 @@ namespace mantis_tests
 			return match.Value;
 		}
 
-		private void FillPasswordForm(string url, AccountData account)
-		{
-			driver.Url = url;
-			driver.FindElement(By.Name("password")).SendKeys(account.Password);
-			driver.FindElement(By.Name("password_confirm")).SendKeys(account.Password);
-		}
-
-		private void SubmitPasswordForm()
-		{
-			driver.FindElement(By.CssSelector("input.button")).Click();
-		}
-
 		private void OpenRegistrationForm()
 		{
 			driver.FindElement(By.CssSelector("a.back-to-login-link.pull-left")).Click();
 		}
 
+	
 		private void SubmitRegistration()
 		{
-			driver.FindElement(By.CssSelector("input.button")).Click();
+			driver.FindElement(By.CssSelector("input.width-40.pull-right.btn.btn-success.btn-inverse.bigger-110")).Click();
 			
 		}
 

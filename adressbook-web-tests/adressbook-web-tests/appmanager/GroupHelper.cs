@@ -203,10 +203,23 @@ namespace WebAdressbookTests
             return -1;
         }
 
-        public int AddContactToGroupDb(int contactId, int groupId)
+		public bool EnsureThereHasGroup()
+		{
+
+			List<GroupData> groups = GroupData.GetAll();
+
+			return groups.Count != 0;
+		}
+
+		public int AddContactToGroupDb(int contactId, int groupId)
         {
             GroupContactRelation gcr = new GroupContactRelation();
             return gcr.AddNewRelation(contactId, groupId);
         }
-    }
+
+		public int AddGroupToDb(GroupData group)
+		{
+			return group.AddGroup(group).GetValueOrDefault();
+		}
+	}
 }

@@ -58,12 +58,6 @@ namespace WebAdressbookTests
             return this;
         }
 
-        /*public ContactHelper SelectContact(String id)
-        {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'and @value='" + id + "'])")).Click();
-            return this;
-        }*/
-
         public ContactHelper Remove(ContactData contact)
         {
             SelectContact(contact.Id);
@@ -237,7 +231,7 @@ namespace WebAdressbookTests
         {
             manager.Navigator.GoToHomePage();
             ViewContactDetailsPage(0);
-            string contentDetails = driver.FindElement(By.Id("content")).Text/*.Replace("\n", "").Replace("\r", "")*/;
+            string contentDetails = driver.FindElement(By.Id("content")).Text;
 
             return new ContactData(contentDetails)
             {

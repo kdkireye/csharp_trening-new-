@@ -3,85 +3,97 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinqToDB;
 using LinqToDB.Mapping;
 
 
 namespace WebAdressbookTests
 
 {
-    [Table(Name = "group_list")]
-    public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
-    {
-        public GroupData()
-        {
-        }
+	[Table(Name = "group_list")]
+	public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
+	{
+		public GroupData()
+		{
+		}
 
-        public GroupData(string name)
-        {
-            Name = name;   
-        }
+		public GroupData(string name)
+		{
+			Name = name;
+		}
 
-        public bool Equals(GroupData other)
-        {
-            if (Object.ReferenceEquals(other, null)) 
-            {
-                return false;
-            }
-            if (Object.ReferenceEquals(this, other)) 
-            {
-                return true;
-            }
+		public bool Equals(GroupData other)
+		{
+			if (Object.ReferenceEquals(other, null))
+			{
+				return false;
+			}
+			if (Object.ReferenceEquals(this, other))
+			{
+				return true;
+			}
 
-            return Name == other.Name;
+			return Name == other.Name;
 
-        }
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode();
-        }
+		}
+		public override int GetHashCode()
+		{
+			return Name.GetHashCode();
+		}
 
-        public override string ToString()
-        {
-            return "name=" + Name + "\nheader=" + Header + "\nfooter=" + Footer;
-        }
+		public override string ToString()
+		{
+			return "name=" + Name + "\nheader=" + Header + "\nfooter=" + Footer;
+		}
 
-        public int CompareTo(GroupData other)
-        {
-            if (Object.ReferenceEquals(other, null))
-            {
-                return 1;
-            }
-            return Name.CompareTo(other.Name);
-        }
-        [Column (Name = "group_name")]
-        public string Name { get; set; }
+		public int CompareTo(GroupData other)
+		{
+			if (Object.ReferenceEquals(other, null))
+			{
+				return 1;
+			}
+			return Name.CompareTo(other.Name);
+		}
+		[Column(Name = "group_name")]
+		public string Name { get; set; }
 
-        [Column(Name = "group_header")]
-        public string Header { get; set; }
+		[Column(Name = "group_header")]
+		public string Header { get; set; }
 
-        [Column(Name = "group_footer")]
-        public string Footer { get; set; }
+		[Column(Name = "group_footer")]
+		public string Footer { get; set; }
 
-        [Column(Name = "group_id"), PrimaryKey, Identity]
-        public string Id { get; set; }
+		[Column(Name = "group_id"), PrimaryKey, Identity]
+		public string Id { get; set; }
 
-        public static List<GroupData> GetAll()
-        {
-            using (AddressbookDB db = new AddressbookDB())
-            {
-                return (from g in db.Groups select g).ToList();
-            }
-        }
+		public static List<GroupData> GetAll()
+		{
+			using (AddressbookDB db = new AddressbookDB())
+			{
+				return (from g in db.Groups select g).ToList();
+			}
+		}
 
-        public List<ContactData> GetContacts()
-        {
-            using (AddressbookDB db = new AddressbookDB())
-            {
-                return (from c in db.Contacts 
-                       from gcr in db.GCR.Where(p => p.GroupId == Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00") 
-                        select c).Distinct().ToList();
-            }
-        }
+		public List<ContactData> GetContacts()
+		{
+			using (AddressbookDB db = new AddressbookDB())
+			{
+				return (from c in db.Contacts
+						from gcr in db.GCR.Where(p => p.GroupId == Id && p.ContactId == c.Id && c.Deprecated == "0000-00-00 00:00:00")
+						select c).Distinct().ToList();
+			}
+		}
 
-    }
+		public int? AddGroup(GroupData group)
+		{
+			using (AddressbookDB db = new AddressbookDB())
+			{
+				return db.Groups
+					.Value(g => g.Name, group.Name)
+					.Value(g => g.Header, group.Header)
+					.Value(g => g.Footer, group.Footer)
+					.InsertWithInt32Identity();
+			}
+		}
+	}
 }
