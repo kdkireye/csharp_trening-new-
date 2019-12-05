@@ -20,6 +20,12 @@ namespace mantis_tests
 			Name = name;
 		}
 
+		public ProjectData(string name, string description)
+		{
+			Name = name;
+			Description = description;
+		}
+
 		public bool Equals(ProjectData other)
 		{
 			if (Object.ReferenceEquals(other, null))

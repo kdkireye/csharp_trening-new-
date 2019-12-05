@@ -43,7 +43,7 @@ namespace WebAdressbookTests
                 File.ReadAllText("adressbook-web-tests\\contact.json"));
         }
 
-        [Test, TestCaseSource("ContactDataFromJsonFile")]
+        [Test, TestCaseSource("RandomContactDataProvider")]
         public void ContactCreationTest(ContactData contact)
         {
 

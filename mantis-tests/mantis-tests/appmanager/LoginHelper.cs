@@ -35,7 +35,8 @@ namespace mantis_tests
 			if (IsLoggedIn())
 			{
 				driver.FindElement(By.CssSelector("span.user-info")).Click();
-				driver.FindElement(By.CssSelector("li.divider")).Click();
+				//driver.FindElement(By.CssSelector("li.divider")).Click();
+				driver.FindElement(By.LinkText("Выход")).Click();
 			}
 		}
 

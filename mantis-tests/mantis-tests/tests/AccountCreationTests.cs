@@ -1,6 +1,6 @@
-﻿using System;
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿//using System;
+//using NUnit.Framework;
+//using OpenQA.Selenium;
 //using System.IO;
 //using OpenQA.Selenium.Firefox;
 //using OpenQA.Selenium.Support.UI;
@@ -26,14 +26,18 @@ using OpenQA.Selenium;
 //		{
 //			AccountData account = new AccountData()
 //			{
-//				Name = "testuser1",
-//				Password = "password1",
-//				Email = "testuser1@localhost.localdomain"
+//				Name = "testuser4",
+//				Password = "password",
+//				Email = "testuser4@localhost.localdomain"
 //			};
+
 //			app.James.Delete(account);
 //			app.James.Add(account);
+
 //			app.Registration.Register(account);
 //		}
+//	}
+//}
 //		[OneTimeTearDown]
 //		public void restoreConfig()
 //		{
